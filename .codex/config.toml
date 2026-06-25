@@ -1,0 +1,18 @@
+# Codex CLI configuration
+# https://developers.openai.com/codex/config-reference
+
+model = "codex-mini-latest"
+
+[sandbox]
+# Network access off by default; enable per-project as needed
+network = false
+
+[agent]
+# Load AGENTS.md from project root and ~/.codex/AGENTS.md
+project_doc_max_bytes = 65536
+
+[[skills.config]]
+# Skills live in .codex/skills/*/SKILL.md
+# Disable any skill by setting enabled = false
+# path = ".codex/skills/ecc/some-skill/SKILL.md"
+# enabled = false
