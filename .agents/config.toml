@@ -1,0 +1,6 @@
+# Antigravity (agy) project-scoped configuration
+# Docs: https://antigravity.google/docs/config
+# User-level config lives at ~/.agents/config.toml — put auth keys there.
+
+# Project instructions: agy reads AGENTS.md at repo root automatically.
+# Skills live in .agents/skills/*/SKILL.md (project) | ~/.agents/skills/*/SKILL.md (global)
