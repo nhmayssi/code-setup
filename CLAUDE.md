@@ -1,39 +1,62 @@
-# code-setup
+# CLAUDE.md - Behavioral Guidelines
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-Personal agentic engineering setup for Claude Code. This is the starting point — install it into any project and customize down from here.
+## 1. Think Before Coding
 
-## What this is
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
 
-A local `.claude/` configuration built on the full [ECC (Everything Claude Code)](https://github.com/affaan-m/ECC) install. It ships at maximum coverage so you can remove what you don't need rather than hunt for what to add.
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
 
-## What's included
+## 2. Simplicity First
 
-| Component | Count | What it does |
-|-----------|-------|-------------|
-| Skills | 271 | Workflow patterns Claude can follow — TDD, code review, security scans, research, orchestration, and more |
-| Agents | 67 | Specialized subagents for language-specific review, build error resolution, planning, and domain tasks |
-| Commands | 92 | Slash commands that trigger skills from the chat input |
-| Hooks | 28 | Automations that run before/after tool calls — quality gates, format checks, session persistence, desktop notifications |
+**Minimum code that solves the problem. Nothing speculative.**
 
-## How to use
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
 
-Clone this repo into a project's `.claude/` directory, or use it as-is as your global `~/.claude/` base.
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-```bash
-git clone https://github.com/nhmayssi/code-setup .claude
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
 ```
 
-Then open Claude Code from that project — the skills, agents, and hooks activate automatically.
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## Customizing
+---
 
-This is the max load-out. Start by removing what doesn't apply to your stack:
-
-- **Skills** live in `.claude/skills/ecc/` — delete folders you don't need
-- **Agents** live in `.claude/agents/` — delete YAML files for languages/frameworks you don't use
-- **Hooks** are configured in `.claude/hooks/hooks.json` — comment out or remove individual hook entries
-- **Rules** live in `.claude/rules/ecc/` — remove language rule sets that don't apply
-
-## Source
-
-Built from ECC v2.0.0 using `--target claude-project --profile full` plus all opt-in skills.
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
