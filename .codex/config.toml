@@ -1,18 +1,16 @@
-# Codex CLI configuration
-# https://developers.openai.com/codex/config-reference
+#:schema https://developers.openai.com/codex/config-schema.json
+# Codex CLI project-scoped config — https://developers.openai.com/codex/config-reference
+# Provider/auth keys belong in ~/.codex/config.toml (user-level), not here.
 
 model = "codex-mini-latest"
+sandbox_mode = "workspace-write"
 
-[sandbox]
-# Network access off by default; enable per-project as needed
-network = false
-
-[agent]
-# Load AGENTS.md from project root and ~/.codex/AGENTS.md
+# Codex reads AGENTS.md at repo root automatically.
+project_doc_fallback_filenames = ["AGENTS.override.md"]
 project_doc_max_bytes = 65536
 
-[[skills.config]]
-# Skills live in .codex/skills/*/SKILL.md
-# Disable any skill by setting enabled = false
+# Skills: .codex/skills/*/SKILL.md (project) | ~/.codex/skills/*/SKILL.md (global)
+# Disable a skill without deleting it:
+# [[skills.config]]
 # path = ".codex/skills/ecc/some-skill/SKILL.md"
 # enabled = false
